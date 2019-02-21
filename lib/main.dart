@@ -13,8 +13,8 @@ const gradient = LinearGradient(
   tileMode: TileMode.repeated, // repeats the gradient over the canvas
 );
 
-const double topBarHeight = 200;
-const double overlayHeight = 100;
+const double topBarHeight = 150;
+const double overlayHeight = 120;
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -84,88 +84,51 @@ class _MyHomePageState extends State<MyHomePage> {
       length: 3,
       child: Scaffold(
         body: Stack(children: [
-          Column(children: [
-            Container(
-              constraints: BoxConstraints(maxHeight: topBarHeight),
-              decoration: BoxDecoration(
-                gradient: gradient,
-              ),
-            ),
-            Expanded(child: Text(''))
-          ]),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(
-                10.0, topBarHeight - overlayHeight / 2, 10, 0),
-            child: Container(
-              decoration: BoxDecoration(boxShadow: [
-                BoxShadow(
-                    blurRadius: 5,
-                    spreadRadius: 2,
-                    offset: Offset(4, 4),
-                    color: Color(0x33000000))
-              ]),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: Container(
-                  alignment: AlignmentDirectional(0.0, 0.0),
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 20.0),
-                    child: Container(
-                        alignment: AlignmentDirectional(-1, 0.0),
-                        constraints: BoxConstraints(maxHeight: 50),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 30.0),
-                          child: Text(
-                            'Enter the card number...',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w100,
-                                letterSpacing: 1),
-                          ),
-                        ),
-                        color: Color(0x44FFFFFF)),
-                  ),
-                  constraints:
-                      BoxConstraints(maxWidth: 400, maxHeight: overlayHeight),
-                  decoration: BoxDecoration(
-                    gradient: gradient,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 270.0),
-            child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Container(
-                    decoration: BoxDecoration(
-                        border: Border(
-                            bottom: BorderSide(color: Colors.grey, width: 1))),
-                    child: TabBar(
-                      indicatorColor: Colors.black,
-                      indicatorWeight: 1,
-                      tabs: <Widget>[
-                        _tab('MOBILE'),
-                        _tab('TELECOM'),
-                        _tab('UNICOM'),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                      child: TabBarView(children: [
-                    Container(child: Text('')),
-                    Container(child: Text('')),
-                    Container(child: Text(''))
-                  ]))
-                ]),
-          ),
+          _Header(),
+          _CardEntry(),
+          _TabView(),
         ]),
       ),
+    );
+  }
+}
+
+class _TabView extends StatelessWidget {
+  const _TabView({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding:
+          const EdgeInsets.only(top: topBarHeight + 15 + overlayHeight / 2),
+      child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Container(
+              decoration: BoxDecoration(
+                  border:
+                      Border(bottom: BorderSide(color: Colors.grey, width: 1))),
+              child: TabBar(
+                indicatorColor: Colors.black,
+                indicatorWeight: 1,
+                tabs: <Widget>[
+                  _tab('MOBILE'),
+                  _tab('TELECOM'),
+                  _tab('UNICOM'),
+                ],
+              ),
+            ),
+            Expanded(
+                child: TabBarView(children: [
+              Container(child: Text('')),
+              Container(child: Text('')),
+              Container(child: Text(''))
+            ]))
+          ]),
     );
   }
 
@@ -177,6 +140,87 @@ class _MyHomePageState extends State<MyHomePage> {
               fontSize: 12,
               fontWeight: FontWeight.w100,
               letterSpacing: 2)),
+    );
+  }
+}
+
+class _Header extends StatelessWidget {
+  const _Header({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(children: [
+      Container(
+        padding: EdgeInsets.only(top: 40),
+        alignment: AlignmentDirectional(0.0, -1.0),
+        child: Text(
+          'RECHARGE',
+          style: TextStyle(
+              fontWeight: FontWeight.w100,
+              color: Colors.white,
+              letterSpacing: 1,
+              fontSize: 18),
+        ),
+        constraints: BoxConstraints(maxHeight: topBarHeight),
+        decoration: BoxDecoration(
+          gradient: gradient,
+        ),
+      ),
+      Expanded(child: Text(''))
+    ]);
+  }
+}
+
+class _CardEntry extends StatelessWidget {
+  const _CardEntry({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+          10.0, topBarHeight - overlayHeight / 2, 10, 0),
+      child: Container(
+        decoration: BoxDecoration(boxShadow: [
+          BoxShadow(
+              blurRadius: 5,
+              spreadRadius: 2,
+              offset: Offset(4, 4),
+              color: Color(0x33000000))
+        ]),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(8.0),
+          child: Container(
+            alignment: AlignmentDirectional(0.0, 0.0),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 20.0),
+              child: Container(
+                  alignment: AlignmentDirectional(-1, 0.0),
+                  constraints: BoxConstraints(maxHeight: 50),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 30.0),
+                    child: Text(
+                      'Enter the card number...',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w100,
+                          letterSpacing: 1),
+                    ),
+                  ),
+                  color: Color(0x44FFFFFF)),
+            ),
+            constraints:
+                BoxConstraints(maxWidth: 400, maxHeight: overlayHeight),
+            decoration: BoxDecoration(
+              gradient: gradient,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
