@@ -13,6 +13,9 @@ const gradient = LinearGradient(
   tileMode: TileMode.repeated, // repeats the gradient over the canvas
 );
 
+const double topBarHeight = 200;
+const double overlayHeight = 100;
+
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -78,27 +81,53 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Scaffold(
         body: Stack(children: [
           Column(children: [
-            ConstrainedBox(
-              constraints: BoxConstraints(maxHeight: 200),
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: gradient,
-                ),
+            Container(
+              constraints: BoxConstraints(maxHeight: topBarHeight),
+              decoration: BoxDecoration(
+                gradient: gradient,
               ),
             ),
             Expanded(child: Text(''))
           ]),
           Padding(
-            padding: const EdgeInsets.fromLTRB(26.0, 150, 26, 0),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(8.0),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 400, maxHeight: 100),
+            padding: const EdgeInsets.fromLTRB(
+                10.0, topBarHeight - overlayHeight / 2, 10, 0),
+            child: Container(
+              decoration: BoxDecoration(boxShadow: [
+                BoxShadow(
+                    blurRadius: 5,
+                    spreadRadius: 2,
+                    offset: Offset(4, 4),
+                    color: Color(0x33000000))
+              ]),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
                 child: Container(
+                  alignment: AlignmentDirectional(0.0, 0.0),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 20.0),
+                    child: Container(
+                        alignment: AlignmentDirectional(-1, 0.0),
+                        constraints: BoxConstraints(maxHeight: 50),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 30.0),
+                          child: Text(
+                            'Enter the card number...',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w100,
+                                letterSpacing: 1),
+                          ),
+                        ),
+                        color: Color(0x44FFFFFF)),
+                  ),
+                  constraints:
+                      BoxConstraints(maxWidth: 400, maxHeight: overlayHeight),
                   decoration: BoxDecoration(
                     gradient: gradient,
                   ),
@@ -118,6 +147,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         border: Border(
                             bottom: BorderSide(color: Colors.grey, width: 1))),
                     child: TabBar(
+                      indicatorColor: Colors.black,
+                      indicatorWeight: 1,
                       tabs: <Widget>[
                         _tab('MOBILE'),
                         _tab('TELECOM'),
@@ -127,8 +158,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   Expanded(
                       child: TabBarView(children: [
-                    Container(child: Text('s')),
-                    Container(child: Text('s'))
+                    Container(child: Text('')),
+                    Container(child: Text('')),
+                    Container(child: Text(''))
                   ]))
                 ]),
           ),
@@ -140,7 +172,11 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _tab(text) {
     return Tab(
       child: Text(text,
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.w100)),
+          style: TextStyle(
+              color: Colors.black,
+              fontSize: 12,
+              fontWeight: FontWeight.w100,
+              letterSpacing: 2)),
     );
   }
 }
